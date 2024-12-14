@@ -1,6 +1,7 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 using TokerChat.Api.Infraestructure.Persistence;
 using TokerChat.Api.Interfaces;
 using TokerChat.Api.Services;
@@ -19,6 +20,9 @@ builder.Services.AddSwaggerGen(options =>
         Title = "Toker API",
         Version = "v1"
     });
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    options.IncludeXmlComments(xmlPath);//incluye comentarios para archivo de documentación
 
     // Opcional: Aquí puedes agregar esquemas de seguridad, anotaciones, etc.
 });
@@ -38,7 +42,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();           
+    app.UseSwagger();
     app.UseSwaggerUI(options =>
     {
         options.SwaggerEndpoint("/swagger/v1/swagger.json", "Mi API v1");
