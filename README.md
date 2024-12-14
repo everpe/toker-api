@@ -40,8 +40,7 @@ json
   }
 }
 
-Simulación de mensaje: Al guardar el contacto, la API imprime en los logs el siguiente mensaje:
-Mensaje de bienvenida enviado a Juan Pérez al número 123456789
+
 
 GET /api/Contact
 Descripción: Obtiene todos los contactos almacenados.
