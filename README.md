@@ -34,7 +34,7 @@ json
 {
   "message": "Mensaje de bienvenida enviado a Juan Pérez al número 123456789",
   "data": {
-    "id": 1,
+    "contactId": 1,
     "name": "Juan Pérez",
     "phoneNumber": "123456789"
   }
@@ -49,12 +49,12 @@ json
 Copiar código
 [
   {
-    "id": 1,
+    "contactId": 1,
     "name": "Juan Pérez",
     "phoneNumber": "123456789"
   },
   {
-    "id": 2,
+    "contactId": 2,
     "name": "Ana Gómez",
     "phoneNumber": "987654321"
   }
