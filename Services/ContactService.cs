@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using TokerChat.Api.Dto;
 using TokerChat.Api.Infraestructure.Persistence;
@@ -30,6 +31,11 @@ namespace TokerChat.Api.Services
                                entity.Name, entity.PhoneNumber);
 
             return _mapper.Map<ContactDto>(entity);
+        }
+
+        public IAsyncEnumerable<ContactDto> GetContactsAsync() 
+        {
+            return _context.Contacts.ProjectTo<ContactDto>(_mapper.ConfigurationProvider).AsAsyncEnumerable();
         }
     }
 

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TokerChat.Api.Dto;
 using TokerChat.Api.Mediators.Commands;
+using TokerChat.Api.Mediators.Querys;
 
 namespace TokerChat.Api.Controllers
 {
@@ -27,6 +28,16 @@ namespace TokerChat.Api.Controllers
         {
             var contactDto = await _mediator.Send(command);
             return Ok(new { Message = "Datos recibidos correctamente", Data = contactDto });
+        }
+
+        /// <summary>
+        /// Permite consultar todos los contactos realizados.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public IAsyncEnumerable<ContactDto> GetContacts()
+        {
+            return _mediator.CreateStream(new GetContactsQuery());
         }
     }
 }
