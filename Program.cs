@@ -1,8 +1,9 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using TokerChat.Api.Infraestructure.Persistence;
+using TokerChat.Api.Interfaces;
+using TokerChat.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,19 +23,22 @@ builder.Services.AddSwaggerGen(options =>
     // Opcional: Aquí puedes agregar esquemas de seguridad, anotaciones, etc.
 });
 // Add services to the container.
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseInMemoryDatabase("MiBaseDeDatosEnMemoria"));
 //mediatR
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
 //fluent validation
 builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseInMemoryDatabase("MiBaseDeDatosEnMemoria"));
+builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddScoped<IContactService, ContactService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();           // Genera el documento JSON en /swagger/v1/swagger.json
+    app.UseSwagger();           
     app.UseSwaggerUI(options =>
     {
         options.SwaggerEndpoint("/swagger/v1/swagger.json", "Mi API v1");

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TokerChat.Api.Models;
 
 namespace TokerChat.Api.Infraestructure.Persistence
 {
@@ -6,14 +7,18 @@ namespace TokerChat.Api.Infraestructure.Persistence
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
-        // DbSets: Cada uno representa una tabla
-        //public DbSet<Product> Products { get; set; }
+        public DbSet<Contact> Contacts { get; set; }
 
-        // Opcionalmente puedes sobreescribir OnModelCreating si necesitas configuraciones adicionales
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            // Configuración adicional de entidades, índices, etc.
+            modelBuilder.Entity<Contact>(entity =>
+            {
+                entity.HasKey(e => e.ContactId); // Define la clave primaria
+                entity.Property(e => e.Name).IsRequired().HasMaxLength(100); // Configuración de Name
+                entity.Property(e => e.PhoneNumber).IsRequired().HasMaxLength(15); // Configuración de PhoneNumber
+            });
         }
     }
 }
